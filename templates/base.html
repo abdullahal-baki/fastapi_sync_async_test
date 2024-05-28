@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} Moja Strona {% endblock %}</title>
+    <style>
+        nav {
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 20px;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        .alert {
+            padding: 20px;
+            margin: 5px;
+            color: #970020;
+            background-color: #ffd5de;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/">Strona główna</a>
+        <a href=" {{ url_for('add_message_sync_get') }} ">Formularz synchroniczny</a>
+        <a href=" {{ url_for('add_message_async_get') }} ">Formularz asynchroniczny</a>
+    </nav>
+    <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Add a New Message</h1>
+    <form method="post" action="{{ request.url_for('add_message_sync_post') }}">
+        
+        <div>
+            <label for="name">Name</label><br>
+            <input type="text" id="name" name="name" class="form-control" placeholder="Name" required><br>
+            {% if form_errors.name %}
+                {% for error in form_errors.name %}
+                    <span style="color: red;">{{ error }}</span><br>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div>
+            <label for="last_name">Last Name</label><br>
+            <input type="text" id="last_name" name="last_name" class="form-control" placeholder="Last Name" required><br>
+            {% if form_errors.last_name %}
+                {% for error in form_errors.last_name %}
+                    <span style="color: red;">{{ error }}</span><br>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div>
+            <label for="phone_number">Phone Number</label><br>
+            <input type="text" id="phone_number" name="phone_number" class="form-control" placeholder="Phone Number" required><br>
+            {% if form_errors.phone_number %}
+                {% for error in form_errors.phone_number %}
+                    <span style="color: red;">{{ error }}</span><br>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div>
+            <label for="email">Email</label><br>
+            <input type="email" id="email" name="email" class="form-control" placeholder="Email" required><br>
+            {% if form_errors.email %}
+                {% for error in form_errors.email %}
+                    <span style="color: red;">{{ error }}</span><br>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div>
+            <label for="content">Content</label><br>
+            <textarea id="content" name="content" class="form-control" placeholder="Message content" required></textarea><br>
+            {% if form_errors %}
+                    <span style="color: red;">{{ form_errors.msg }}</span><br>
+            {% endif %}
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+{% endblock %}

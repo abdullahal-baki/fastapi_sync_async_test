@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Add a New Message (Async)</h1>
+<form id="async-form" method="post" action="{{ url_for('add_message_async_post') }}">
+    <div>
+        <label for="name">Name</label><br>
+        <input type="text" id="name" name="name" class="form-control" placeholder="Name" required><br>
+        {% if form_errors.name %}
+            {% for error in form_errors.name %}
+                <span style="color: red;">{{ error }}</span><br>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div>
+        <label for="last_name">Last Name</label><br>
+        <input type="text" id="last_name" name="last_name" class="form-control" placeholder="Last Name"><br>
+        {% if form_errors.last_name %}
+            {% for error in form_errors.last_name %}
+                <span style="color: red;">{{ error }}</span><br>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div>
+        <label for="phone_number">Phone Number</label><br>
+        <input type="text" id="phone_number" name="phone_number" class="form-control" placeholder="Phone Number"><br>
+        {% if form_errors.phone_number %}
+            {% for error in form_errors.phone_number %}
+                <span style="color: red;">{{ error }}</span><br>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div>
+        <label for="email">Email</label><br>
+        <input type="email" id="email" name="email" class="form-control" placeholder="Email"><br>
+        {% if form_errors.email %}
+            {% for error in form_errors.email %}
+                <span style="color: red;">{{ error }}</span><br>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div>
+        <label for="content">Message content</label><br>
+        <textarea id="content" name="content" class="form-control" placeholder="Message content"></textarea><br>
+        {% if form_errors.content %}
+            {% for error in form_errors.content %}
+                <span style="color: red;">{{ error }}</span><br>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <button type="button" id="submit-async" class="btn btn-primary">Submit Asynchronously</button>
+</form>
+<div id="async-result"></div>
+<script>
+    document.getElementById('submit-async').addEventListener('click', async function() {
+        const form = document.getElementById('async-form');
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+
+        const response = await fetch(form.action, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams(data)
+        });
+
+        const result = await response.json();
+        const resultDiv = document.getElementById('async-result');
+        if (response.status === 200) {
+            
+            resultDiv.innerHTML = `<div class="alert">${result.message}</div>`;
+        } else {
+            console.log(result);
+            resultDiv.innerHTML = `<div class="alert">${JSON.stringify(result)}</div>`;
+            resultDiv.innerHTML = `<div class="alert">${JSON.stringify(result.errors)}</div>`;
+            resultDiv.innerHTML = `<div class="alert">${JSON.stringify(result.errors.msg)}</div>`;
+        }
+    });
+</script>
+{% endblock %}
